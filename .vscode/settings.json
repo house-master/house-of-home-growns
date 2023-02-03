@@ -1,0 +1,9 @@
+{
+  "cSpell.words": [],
+  "files.exclude": {
+    "**/__pycache__": true
+  },
+  "editor.formatOnSave": false,
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+  "git.ignoreLimitWarning": true
+}
