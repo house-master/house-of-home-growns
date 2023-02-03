@@ -13,20 +13,159 @@
       "cwd": "${workspaceFolder}",
       "env": { "PYTHONPATH": "${workspaceRoot}" }
     },
-    // {
-    //   "name": "Python: User Service FastAPI",
-    //   "type": "python",
-    //   "request": "launch",
-    //   "module": "uvicorn",
-    //   "args": [
-    //     "data_api.main:app",
-    //     "--host",
-    //     "0.0.0.0",
-    //     "--reload",
-    //     "--port",
-    //     "9001"
-    //   ]
-    // },
-
+    {
+      "name": "Python: User Service FastAPI",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "user.main:app",
+        "--host",
+        "0.0.0.0",
+        "--reload",
+        "--port",
+        "5001"
+      ]
+    },
+    {
+      "name": "Python: Product Service FastAPI",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "product.main:app",
+        "--host",
+        "0.0.0.0",
+        "--reload",
+        "--port",
+        "5051"
+      ]
+    },
+    {
+      "name": "Python: Order Service FastAPI",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "order.main:app",
+        "--host",
+        "0.0.0.0",
+        "--reload",
+        "--port",
+        "5101"
+      ]
+    },
+    {
+      "name": "Python: Customer Service FastAPI",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "customer.main:app",
+        "--host",
+        "0.0.0.0",
+        "--reload",
+        "--port",
+        "5151"
+      ]
+    },
+    {
+      "name": "Python: Payment Service FastAPI",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "payment.main:app",
+        "--host",
+        "0.0.0.0",
+        "--reload",
+        "--port",
+        "5201"
+      ]
+    },
+    {
+      "name": "Python: Content Service FastAPI",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "content.main:app",
+        "--host",
+        "0.0.0.0",
+        "--reload",
+        "--port",
+        "5251"
+      ]
+    },
+    {
+      "name": "Python: Analytics Service FastAPI",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "analytics.main:app",
+        "--host",
+        "0.0.0.0",
+        "--reload",
+        "--port",
+        "5301"
+      ]
+    },
+    {
+      "name": "Python: Recommendation Service FastAPI",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "recommendation.main:app",
+        "--host",
+        "0.0.0.0",
+        "--reload",
+        "--port",
+        "5401"
+      ]
+    },
+    {
+      "name": "Python: Autosuggest Service FastAPI",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "autosuggest.main:app",
+        "--host",
+        "0.0.0.0",
+        "--reload",
+        "--port",
+        "5451"
+      ]
+    },
+    {
+      "name": "Python: Notification Service FastAPI",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "notification.main:app",
+        "--host",
+        "0.0.0.0",
+        "--reload",
+        "--port",
+        "5501"
+      ]
+    },
+    {
+      "name": "Python: Cart Service FastAPI",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "cart.main:app",
+        "--host",
+        "0.0.0.0",
+        "--reload",
+        "--port",
+        "5551"
+      ]
+    }
   ]
 }
