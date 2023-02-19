@@ -1,0 +1,204 @@
+version: '3'
+services:
+##############################################
+# ---------------  Services ---------------  #
+##############################################
+  user:
+    restart: always
+    command: uvicorn user.main:app --host 0.0.0.0 --port 5001
+    build:
+      context: .
+      dockerfile: ./user/Dockerfile
+    ports:
+      - "5001:5001"
+    volumes:
+      - .:/code
+    networks:
+      - house-of-home-growns-tier
+
+
+  product:
+    restart: always
+    command: uvicorn product.main:app --host 0.0.0.0 --port 5051
+    build:
+      context: .
+      dockerfile: ./product/Dockerfile
+    ports:
+      - "5051:5051"
+    volumes:
+      - .:/code
+    networks:
+      - house-of-home-growns-tier
+
+
+  order:
+    restart: always
+    command: uvicorn order.main:app --host 0.0.0.0 --port 5101
+    build:
+      context: .
+      dockerfile: ./order/Dockerfile
+    ports:
+      - "5101:5101"
+    volumes:
+      - .:/code
+    networks:
+      - house-of-home-growns-tier
+
+
+  customer:
+    restart: always
+    command: uvicorn customer.main:app --host 0.0.0.0 --port 5151
+    build:
+      context: .
+      dockerfile: ./customer/Dockerfile
+    ports:
+      - "5151:5151"
+    volumes:
+      - .:/code
+    networks:
+      - house-of-home-growns-tier
+
+
+  payment:
+    restart: always
+    command: uvicorn payment.main:app --host 0.0.0.0 --port 5201
+    build:
+      context: .
+      dockerfile: ./payment/Dockerfile
+    ports:
+      - "5201:5201"
+    volumes:
+      - .:/code
+    networks:
+      - house-of-home-growns-tier
+
+
+  content:
+    restart: always
+    command: uvicorn content.main:app --host 0.0.0.0 --port 5251
+    build:
+      context: .
+      dockerfile: ./content/Dockerfile
+    ports:
+      - "5251:5251"
+    volumes:
+      - .:/code
+    networks:
+      - house-of-home-growns-tier
+
+
+  analytics:
+    restart: always
+    command: uvicorn analytics.main:app --host 0.0.0.0 --port 5301
+    build:
+      context: .
+      dockerfile: ./analytics/Dockerfile
+    ports:
+      - "5301:5301"
+    volumes:
+      - .:/code
+    networks:
+      - house-of-home-growns-tier
+
+
+  recommendation:
+    restart: always
+    command: uvicorn recommendation.main:app --host 0.0.0.0 --port 5401
+    build:
+      context: .
+      dockerfile: ./recommendation/Dockerfile
+    ports:
+      - "5401:5401"
+    volumes:
+      - .:/code
+    networks:
+      - house-of-home-growns-tier
+
+
+  autosuggest:
+    restart: always
+    command: uvicorn autosuggest.main:app --host 0.0.0.0 --port 5451
+    build:
+      context: .
+      dockerfile: ./autosuggest/Dockerfile
+    ports:
+      - "5451:5451"
+    volumes:
+      - .:/code
+    networks:
+      - house-of-home-growns-tier
+
+
+  notification:
+    restart: always
+    command: uvicorn notification.main:app --host 0.0.0.0 --port 5501
+    build:
+      context: .
+      dockerfile: ./notification/Dockerfile
+    ports:
+      - "5501:5501"
+    volumes:
+      - .:/code
+    networks:
+      - house-of-home-growns-tier
+
+
+  cart:
+    restart: always
+    command: uvicorn cart.main:app --host 0.0.0.0 --port 5551
+    build:
+      context: .
+      dockerfile: ./cart/Dockerfile
+    ports:
+      - "5551:5551"
+    volumes:
+      - .:/code
+    networks:
+      - house-of-home-growns-tier
+
+
+########################################
+# ---------------  UI ---------------  #
+########################################
+  nginx:
+    restart: always
+    build: 
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    ports:
+      - 3000:80
+    networks: 
+      - house-of-home-growns-tier
+
+
+##############################################
+# ---------------  Database ---------------  #
+##############################################
+  postgres:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+
+
+  dynamodb:
+    image: amazon/dynamodb-local
+    restart: always
+    hostname: dynamodb-local
+    ports:
+      - "8042:8000"
+
+
+networks:
+  house-of-home-growns-tier:
+    driver: bridge
+
+
+volumes:
+  db:
+    driver: local

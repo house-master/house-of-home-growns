@@ -11,6 +11,6 @@
 * [Autosuggest Service] - 5451 - 5500
 * [Notification Service] - 5501 - 5550
 * [Cart Service] - 5551 - 5600
-* [User Interface] - 443 and 80
+* [Nginx] - 443 and 80
 
 (assuming max 50 instance may be needed)

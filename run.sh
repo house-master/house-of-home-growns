@@ -1,7 +1,7 @@
 DEPLOYMENT_NAME=$1 # dev | staging | prod
 COMMAND_TYPE="${2:-start}" # if not defined then 'start'
-PROJECT_NAME='cie_module'
-DOCKER_COMPOSE_FILENAME='docker-compose.yml'
+PROJECT_NAME='house-of-home-growns-staging'
+DOCKER_COMPOSE_FILENAME='docker-compose.staging.yml'
 DOCKER_COMPOSE_ENVIRONMENT_FILE='env_configs/staging.env'
 
 ############################################################
@@ -37,38 +37,20 @@ while getopts ":hn:" option; do
 done
 
 case "$DEPLOYMENT_NAME" in
-   "prod") 
-        PROJECT_NAME='cie_module_prod'
-        DOCKER_COMPOSE_ENVIRONMENT_FILE='env_configs/prod.env'
-        DOCKER_COMPOSE_FILENAME='build_files/docker-compose.yml'
+   "production") 
+        PROJECT_NAME='house-of-home-growns-production'
+        DOCKER_COMPOSE_ENVIRONMENT_FILE='env-configs/production.env'
+        DOCKER_COMPOSE_FILENAME='docker-compose.production.yml'
    ;;
    "staging") 
-        PROJECT_NAME='cie_module_staging'
-        DOCKER_COMPOSE_ENVIRONMENT_FILE='env_configs/staging.env'
-        DOCKER_COMPOSE_FILENAME='build_files/docker-compose.staging.yml'
+        PROJECT_NAME='house-of-home-growns-staging'
+        DOCKER_COMPOSE_ENVIRONMENT_FILE='env-configs/staging.env'
+        DOCKER_COMPOSE_FILENAME='docker-compose.staging.yml'
    ;;
    "dev") 
-        PROJECT_NAME='cie_module_dev'
-        DOCKER_COMPOSE_ENVIRONMENT_FILE='env_configs/dev.env'
-        DOCKER_COMPOSE_FILENAME='build_files/docker-compose.local.yml'
-   ;;
-   "bulk_ingestion") 
-        PROJECT_NAME='cie_bulk_ingestion'
-        DOCKER_COMPOSE_ENVIRONMENT_FILE='env_configs/dev.env'
-        DOCKER_COMPOSE_FILENAME='build_files/docker-compose.bulk_ingestion.yml'
-          sudo apt update
-          sudo apt install maven
-          pip install sutime
-          mvn dependency:copy-dependencies -DoutputDirectory=./jars -f $(python3 -c 'import importlib; import pathlib; print(pathlib.Path(importlib.util.find_spec("sutime").origin).parent / "pom.xml")')
-   ;;
-   "real_time_ingestion") 
-        PROJECT_NAME='cie_real_time_ingestion'
-        DOCKER_COMPOSE_ENVIRONMENT_FILE='env_configs/dev.env'
-        DOCKER_COMPOSE_FILENAME='build_files/docker-compose.ingestion.yml'
-          sudo apt update
-          sudo apt install maven
-          pip install sutime
-          mvn dependency:copy-dependencies -DoutputDirectory=./jars -f $(python3 -c 'import importlib; import pathlib; print(pathlib.Path(importlib.util.find_spec("sutime").origin).parent / "pom.xml")')
+        PROJECT_NAME='house-of-home-growns-dev'
+        DOCKER_COMPOSE_ENVIRONMENT_FILE='env-configs/dev.env'
+        DOCKER_COMPOSE_FILENAME='docker-compose.dev.yml'
    ;;
    "")
      Help
