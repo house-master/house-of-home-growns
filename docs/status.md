@@ -2,65 +2,65 @@
  - To be started
 
 # Backend Development Status
- [*] Architecture design
+ * [*] Architecture design
 
- [] User Service
+ * [] User Service
     - [] Schema Design
     - [] Email Verification
     - [] Endpoint implementation
 
- [] Product Service
+ * [] Product Service
     - [] Schema Design
     - [] Endpoint implementation
 
- [] Cart Service
+ * [] Cart Service
     - [] Schema Design
     - [] Endpoint implementation
 
- [] Order Service
+ * [] Order Service
     - [] Schema Design
     - [] Explore ship rocker api for tracking
     - [] Endpoint implementation
 
- [] Customer Service
+ * [] Customer Service
     - [] Schema Design
     - [] Discussion for what all information we will be storing on user (website navigation information)
     - [] Endpoint implementation
 
- [] Vendor Service
+ * [] Vendor Service
     - [] Schema Design
     - [] Discussion for what all information we will be storing on user (vendor behavior, rating)
     - [] Endpoint implementation
 
- [] Payment Service
+ * [] Payment Service
     - [] Schema Design
     - [] Explore razor pay api for payment
     - [] Endpoint implementation
 
- [] Content Service
+ * [] Content Service
     - [] Schema Design
     - [] Discussion for what all information we dynamically updated on website by admin
     - [] Endpoint implementation
 
- [] Inventory Service
+ * [] Inventory Service
     - [] Schema Design
     - [] Endpoint implementation
 
- [] Analytics Service
+ * [] Analytics Service
     - [] Schema Design
     - [] Discussion for analysis metrics
     - [] Endpoint implementation
 
- [] Recommendation Service
+ * [] Recommendation Service
     - [] Schema Design
     - [] Discussion for what kind of recommendations and where (is it required for both vendors and customers ?)
     - [] Endpoint implementation
 
- [] Autosuggest Service
+ * [] Autosuggest Service
     - [] Schema Design
     - [] Endpoint implementation
 
- [] Notification Service
+ * [] Notification Service
     - [] Schema Design
     - [] Explore notification for android and ios
     - [] Endpoint implementation
