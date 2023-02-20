@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from bson.objectid import ObjectId
 
 
-class CustomBaseModel(BaseModel):
+class PydanticBaseModel(BaseModel):
     class Config:
         orm_mode = True
         smart_union = True
