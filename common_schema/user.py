@@ -10,17 +10,23 @@ class UserRoleType(str, Enum):
 
 
 class UserAccountStatusType(str, Enum):
-    VERIFIED = "VERIFIED"
+    EMAIL_VERIFIED = "EMAIL_VERIFIED"
     MOBILE_NUMBER_VERIFIED = "MOBILE_NUMBER_VERIFIED"
     VERIFICATION_PENDING = "VERIFICATION_PENDING"
+
+
+class UserLoginStatusType(str, Enum):
+    LOGGED_IN = "LOGGED_IN"
+    LOGGED_OUT = "LOGGED_OUT"
 
 
 class UserModel(PydanticBaseModel):
     id: str
     email: str
-    hashed_password: str
+    hashed_password: bytes
     first_name: str
     last_name: str
     roles: list[UserRoleType]
     icon: str
     account_status: UserAccountStatusType
+    login_status: UserLoginStatusType

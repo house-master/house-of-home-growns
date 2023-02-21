@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.cors import CORSMiddleware
+from user.delivery.api_v1.api import api_router as api_v1_router
 
 
 app = FastAPI()
@@ -18,6 +19,7 @@ app.add_middleware(
 
 
 # ------------------ Router ------------------- #
+app.include_router(api_v1_router)
 
 
 # ------------------ Default Path ------------------- #

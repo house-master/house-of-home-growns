@@ -6,6 +6,10 @@ from datastore.sql_datastore import SqlDataStore
 from user.domain.user import UserDomainModel
 from fastapi.encoders import jsonable_encoder
 import logging
+import sqlalchemy
+
+from user.model.setting import Settings
+
 
 
 class UserPostgresDatastore:
@@ -64,6 +68,26 @@ class UserPostgresDatastore:
         
 
     def delete(self, email: str) -> ErrorResponse:
+        try:
+            user = self.datastore.session.query(UserDomainModel).filter(
+                UserDomainModel.email == email).first()
+
+            if user == None:
+                return ErrorResponse(
+                    error_code=ErrorCode.NO_RECORDS_FOUND,
+                    message=f'no user found with email - {email}'
+                )
+            self.datastore.session.delete(user)
+            self.datastore.session.commit()
+            return None
+        except Exception as e:
+            logging.warning(f'UserPostgresDatastore::delete - {e}')
+            return ErrorResponse(
+                error_code=ErrorCode.INTERNAL_SERVER_ERROR,
+                message=f'{e}'
+            )
+
+    def create_table(self, email: str) -> ErrorResponse:
         try:
             user = self.datastore.session.query(UserDomainModel).filter(
                 UserDomainModel.email == email).first()

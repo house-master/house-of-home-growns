@@ -7,9 +7,9 @@ from common_schema.singleton import Singleton
 
 class SqlDataStoreMaker(metaclass=Singleton):
     def __init__(self, connectionString: str) -> None:
-        engine = create_engine(connectionString)
+        self.engine = create_engine(connectionString)
         self.sessionMaker = sessionmaker(
-            autocommit=False, autoflush=False, bind=engine)
+            autocommit=False, autoflush=False, bind=self.engine)
         return
 
     def createSession(self) -> Session:

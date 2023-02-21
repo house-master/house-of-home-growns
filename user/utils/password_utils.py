@@ -10,7 +10,7 @@ def generate_hash(input: str) -> bytes:
 
 
 
-def verify(hash: str, input: str) -> bool:
+def verify(hash: bytes, input: str) -> bool:
     # encoding user password
     input_bytes = input.encode('utf-8')
 

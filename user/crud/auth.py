@@ -1,138 +1,124 @@
-
-
 from datetime import datetime
 import logging
-from typing import Optional
-from fastapi import Request
+from fastapi import HTTPException, Request
 import jwt
+from common_schema.error import ErrorCode, ErrorResponse
+from common_schema.user import UserLoginStatusType, UserModel, UserRoleType
 from dto.user import UserDTO
-from user.datastore.roles_postgres import UserRolesPostgresDataService
-from user.datastore.user_postgres import UserPostgresDataService
-from user.model.jwt_token import AccessToken
-from user.model.setting import Settings
+from user.dataservice.user import UserDataService
+from user.model.jwt_token import AccessToken, RefreshToken
+import user.utils.password_utils as password_utils
+from user.model.setting import settings
+
 
 
 class AuthenticationCrud:
-    def __init__(self, settings: Settings, userDataService: UserPostgresDataService, userRoleService: UserRolesPostgresDataService) -> None:
+    def __init__(self, userDataService: UserDataService) -> None:
         self.userDataService = userDataService
-        self.userRoleService = userRoleService
         self.settings = settings
         return
 
-    def validateAccessToken(self, request: Request, role: str) -> Optional[UserDTO]:
-        try:
-            token = (request.headers["authorization"] if 'authorization' in request.headers.keys(
-            ) else "").replace("Bearer ", "")
-            data = AccessToken(**jwt.decode(
-                token, self.settings.JWT_ACCESS_TOKEN_SECRET, algorithms=["HS256"]))
+    def validate_access_token(self, request: Request) -> UserDTO:
+        token = (request.headers["authorization"] if 'authorization' in request.headers.keys(
+        ) else "").replace("Bearer ", "")
+        access_token = AccessToken(**jwt.decode(
+            token, self.settings.JWT_ACCESS_TOKEN_SECRET, algorithms=["HS256"]))
 
-            # check access token expiry
-            if data.expiry_time <= datetime.now().timestamp():
-                return None
-
-            user = self.userDataService.getUserByEmail(data.user.email)
-
-            if user == None or not user.login_state:
-                return None
-
-            return user
-        except Exception as e:
-            logging.warning(
-                f'AuthenticationCrud -- validateAccessToken --> Some error in validating access token')
-            logging.warning(e)
+        # check access token expiry
+        if access_token.expiry_time <= datetime.now().timestamp():
             return None
 
-    def generateAccessToken(self, request: Request, role: str) -> Optional[UserDTO]:
-        try:
-            token = (request.headers["authorization"] if 'authorization' in request.headers.keys(
-            ) else "").replace("Bearer ", "")
-            data = JwdTokenDataType(**jwt.decode(
-                token, self.settings.JWT_ACCESS_TOKEN_SECRET, algorithms=["HS256"]))
+        user, err = self.userDataService.get(access_token.user.email)
+        if err != None:
+            err.raise_http_exception()
 
-            # check access token expiry
-            if data.expiry_time <= datetime.now().timestamp():
-                return None
+        if user.login_status == UserLoginStatusType.LOGGED_OUT:
+            ErrorResponse(
+                error_code = ErrorCode.UNAUTHORIZED,
+                message=f'user logged out'
+            ).raise_http_exception()
 
-            user = self.userDataService.getUserByEmail(data.user.email)
+        return user
 
-            if user == None or not user.login_state:
-                return None
+    def generate_access_token(self, request: Request) -> str:
+        token = (request.headers["authorization"] if 'authorization' in request.headers.keys(
+        ) else "").replace("Bearer ", "")
+        refresh_token = RefreshToken(**jwt.decode(
+            token, self.settings.JWT_REFRESH_TOKEN_SECRET, algorithms=["HS256"]))
 
-            return user
-        except Exception as e:
-            logging.warning(
-                f'AuthenticationCrud -- validateAccessToken --> Some error in validating access token')
-            logging.warning(e)
+        # check access token expiry
+        if refresh_token.expiry_time <= datetime.now().timestamp():
             return None
 
-    def register(self, request: Request) -> Optional[str]:
-        try:
-            authCode = (request.headers["authorization"] if 'authorization' in request.headers.keys(
-            ) else "").replace("Bearer ", "")
-            data = JwdTokenDataType(**jwt.decode(
-                authCode, self.settings.JWT_AUTH_CODE_SECRET, algorithms=["HS256"]))
+        user, err = self.userDataService.get(refresh_token.user.email)
+        if err != None:
+            err.raise_http_exception()
 
-            # check auth code expiry
-            if data.expiry_time <= datetime.now().timestamp():
-                return None
+        if user.login_status == UserLoginStatusType.LOGGED_OUT:
+            ErrorResponse(
+                error_code=ErrorCode.UNAUTHORIZED,
+                message=f'user logged out'
+            ).raise_http_exception()
 
-            accessTokenData = JwdTokenDataType(
-                expiry_time=datetime.now().timestamp() + self.settings.ACCESS_TOKEN_TIME_SECONDS,
-                user=data.user
-            )
+        accessTokenData = AccessToken(
+            expiry_time=datetime.now().timestamp() + self.settings.ACCESS_TOKEN_TIME_SECONDS,
+            user=UserDTO(**user.dict()),
+            role=refresh_token.role
+        )
 
-            access_token = jwt.encode(
-                accessTokenData.dict(), self.settings.JWT_ACCESS_TOKEN_SECRET, algorithm="HS256")
+        access_token = jwt.encode(
+            accessTokenData.dict(), self.settings.JWT_ACCESS_TOKEN_SECRET, algorithm="HS256")
 
-            updatesUser = self.userDataService.updateLoginState(
-                data.user.email, True)
-            if updatesUser == None:
-                return None
+        return access_token
 
-            return access_token
-        except Exception as e:
-            logging.warning(
-                f'AuthenticationCrud -- login --> Some error generating access token')
-            logging.warning(e)
-            return None
+    def register(self, user: UserDTO) -> UserDTO:
+        user, err = self.userDataService.create(UserModel(**user.dict()))
+        if err != None:
+            err.raise_http_exception()
 
-    def login(self, request: Request) -> Optional[str]:
-        try:
-            authCode = (request.headers["authorization"] if 'authorization' in request.headers.keys(
-            ) else "").replace("Bearer ", "")
-            data = JwdTokenDataType(**jwt.decode(
-                authCode, self.settings.JWT_AUTH_CODE_SECRET, algorithms=["HS256"]))
+        return UserDTO(**user.dict())
 
-            # check auth code expiry
-            if data.expiry_time <= datetime.now().timestamp():
-                return None
+    def login(self, email: str, password: str, role: UserRoleType) -> str:
+        user, err = self.userDataService.get(email)
+        if err != None:
+            err.raise_http_exception()
 
-            accessTokenData = JwdTokenDataType(
-                expiry_time=datetime.now().timestamp() + self.settings.ACCESS_TOKEN_TIME_SECONDS,
-                user=data.user
-            )
+        if not password_utils.verify(user.hashed_password, password):
+            ErrorResponse(
+                error_code=ErrorCode.UNAUTHORIZED,
+                message=f'incorrect password'
+            ).raise_http_exception()
 
-            access_token = jwt.encode(
-                accessTokenData.dict(), self.settings.JWT_ACCESS_TOKEN_SECRET, algorithm="HS256")
 
-            updatesUser = self.userDataService.updateLoginState(
-                data.user.email, True)
-            if updatesUser == None:
-                return None
+        refreshTokenData = AccessToken(
+            expiry_time=datetime.now().timestamp() + self.settings.SESSION_EXPIRY_TIME_SECONDS,
+            user=UserDTO(**user.dict()),
+            role=role
+        )
 
-            return access_token
-        except Exception as e:
-            logging.warning(
-                f'AuthenticationCrud -- login --> Some error generating access token')
-            logging.warning(e)
-            return None
+        refresh_token = jwt.encode(
+            refreshTokenData.dict(), self.settings.JWT_REFRESH_TOKEN_SECRET, algorithm="HS256")
 
+        user, err = self.userDataService.update_login_status(
+            email, UserLoginStatusType.LOGGED_IN)
+        if err != None:
+            err.raise_http_exception()
+
+        return refresh_token
 
     def logout(self, request: Request) -> bool:
-        user = self.validateAccessToken(request, "logout")
-        if user == None:
-            return False
+        token = (request.headers["authorization"] if 'authorization' in request.headers.keys(
+        ) else "").replace("Bearer ", "")
+        access_token = AccessToken(**jwt.decode(
+            token, self.settings.JWT_ACCESS_TOKEN_SECRET, algorithms=["HS256"]))
 
-        updatesUser = self.userDataService.updateLoginState(user.email, False)
-        if updatesUser == None:
-            return False
+        # check access token expiry
+        if access_token.expiry_time <= datetime.now().timestamp():
+            return None
+
+        _, err = self.userDataService.update_login_status(
+            access_token.user.email, UserLoginStatusType.LOGGED_OUT)
+        if err != None:
+            err.raise_http_exception()
+
+        return True

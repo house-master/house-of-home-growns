@@ -1,20 +1,27 @@
 
 
-from dto.user import UserDTO
+import logging
+from typing import Any
+from fastapi import Request
+from common_schema.error import ErrorCode, ErrorResponse
+from common_schema.user import UserLoginStatusType
+from dto.user import UserDTO, UserUpdateRequestDTO
+from user.crud.auth import AuthenticationCrud
+from user.dataservice.user import UserDataService
+from user.model.setting import Settings
 
 
-class UserCrud:
-    def __init__(self) -> None:
+class UserCrud(AuthenticationCrud):
+    def __init__(self, settings: Settings, userDataService: UserDataService) -> None:
+        self.userDataService = userDataService
+        self.settings = settings
         return
 
-    def get(requestData: UserDTO) -> UserDTO:
-        return
-
-    def update(requestData: UserDTO) -> UserDTO:
+    def update(self, request: Request, ) -> UserDTO:
         return
     
-    def create(requestData: UserDTO) -> UserDTO:
+    def create(request: Request, requestData: UserDTO) -> UserDTO:
         return
 
-    def delete(request, email: str) -> UserDTO:
+    def delete(self, request: Request, email: str) -> UserDTO:
         return

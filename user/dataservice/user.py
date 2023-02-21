@@ -3,7 +3,7 @@
 
 from typing import Any, Tuple
 from common_schema.error import ErrorResponse
-from common_schema.user import UserAccountStatusType, UserModel, UserRoleType
+from common_schema.user import UserAccountStatusType, UserLoginStatusType, UserModel, UserRoleType
 from user.datastore.user_postgres import UserPostgresDatastore
 from user.domain.user import UserDomainModel
 
@@ -45,10 +45,13 @@ class UserDataService:
     def update_account_status(self, email: str, status: UserAccountStatusType) -> Tuple[UserModel, ErrorResponse]:
         return self.__update(email, {"account_status": status})
 
+    def update_login_status(self, email: str, status: UserLoginStatusType) -> Tuple[UserModel, ErrorResponse]:
+        return self.__update(email, {"login_status": status})
+
     def delete(self, email: str) -> ErrorResponse:
         return self.userDataStore.delete(email)
 
-    def __update(self, email: str, data: dict[str, Any]):
+    def __update(self, email: str, data: dict[str, Any]) -> Tuple[UserModel, ErrorResponse]:
         user, err = self.userDataStore.get(email)
         if err != None:
             return None, err
