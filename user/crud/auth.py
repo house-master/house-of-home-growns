@@ -50,7 +50,7 @@ class AuthenticationCrud:
                 message=f'user logged out'
             ).raise_http_exception()
 
-        return user
+        return UserDTO(**user.dict())
 
     def generate_access_token(self, request: Request) -> str:
         token = (request.headers["authorization"] if 'authorization' in request.headers.keys(
@@ -59,7 +59,8 @@ class AuthenticationCrud:
             token, settings.JWT_REFRESH_TOKEN_SECRET, algorithms=["HS256"]))
 
         # check access token expiry
-        if refresh_token.expiry_time <= datetime.now().timestamp():
+        current_timestamp = datetime.now().timestamp()
+        if refresh_token.expiry_time <= current_timestamp:
             return None
 
         user, err = self.userDataService.get(refresh_token.user.email)
@@ -108,9 +109,9 @@ class AuthenticationCrud:
                 message=f'incorrect password'
             ).raise_http_exception()
 
-
+        current_timestamp = datetime.now().timestamp()
         refreshTokenData = AccessToken(
-            expiry_time=datetime.now().timestamp() + settings.SESSION_EXPIRY_TIME_SECONDS,
+            expiry_time=current_timestamp + settings.SESSION_EXPIRY_TIME_SECONDS,
             user=UserDTO(**user.dict()),
             role=role
         )
