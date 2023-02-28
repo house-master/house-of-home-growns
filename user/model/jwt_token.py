@@ -15,3 +15,8 @@ class RefreshToken(PydanticBaseModel):
     expiry_time: int
     role: UserRoleType
     user: UserDTO
+
+
+class VerificationToken(PydanticBaseModel):
+    expiry_time: int
+    email: str

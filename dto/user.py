@@ -9,9 +9,9 @@ from common_schema.user import UserAccountStatusType, UserRoleType
 
 class UserDTO(PydanticBaseModel):
     email: str
+    password: Optional[str]
     first_name: str
     last_name: str
     roles: list[UserRoleType]
     icon: str
-    account_status: UserAccountStatusType
 

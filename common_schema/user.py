@@ -1,4 +1,6 @@
 from enum import Enum
+
+from typing import Optional
 from common_schema.baseModel import PydanticBaseModel
 
 class UserRoleType(str, Enum):
@@ -21,12 +23,12 @@ class UserLoginStatusType(str, Enum):
 
 
 class UserModel(PydanticBaseModel):
-    id: str
+    id: Optional[str]
     email: str
     hashed_password: bytes
     first_name: str
     last_name: str
     roles: list[UserRoleType]
     icon: str
-    account_status: UserAccountStatusType
-    login_status: UserLoginStatusType
+    account_status: UserAccountStatusType = UserAccountStatusType.VERIFICATION_PENDING
+    login_status: UserLoginStatusType = UserLoginStatusType.LOGGED_OUT

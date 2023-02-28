@@ -8,11 +8,15 @@ class ErrorCode(str, Enum):
 
     UNAUTHORIZED = "UNAUTHORIZED"
 
+    ALREADY_VERIFIED = "ALREADY_VERIFIED"
+
     INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR"
 
     @staticmethod
     def get_status_code(code: ErrorCode):
         if code == ErrorCode.NO_RECORDS_FOUND:
+            return 404
+        elif code == ErrorCode.ALREADY_VERIFIED:
             return 404
         elif code == ErrorCode.UNAUTHORIZED:
             return 401
