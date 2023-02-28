@@ -4,10 +4,10 @@
 # Backend Development Status
  * [*] Architecture design
 
- * [] User Service
-    - [] Schema Design
-    - [] Email Verification
-    - [] Endpoint implementation
+ * [*] User Service
+    - [*] Schema Design
+    - [*] Email Verification
+    - [*] Endpoint implementation
 
  * [] Product Service
     - [] Schema Design
