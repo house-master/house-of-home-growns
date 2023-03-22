@@ -1,7 +1,7 @@
 from __future__ import annotations
 from enum import Enum
 from fastapi import HTTPException
-from common_schema.baseModel import PydanticBaseModel
+from common_model.baseModel import PydanticBaseModel
 
 class ErrorCode(str, Enum):
     NO_RECORDS_FOUND = "NO_RECORDS_FOUND"

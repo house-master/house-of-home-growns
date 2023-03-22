@@ -1,7 +1,7 @@
 import sqlalchemy
+from common_domain.product import ProductDomainModel
 from datastore.sql_datastore import SqlDataStore
 from user.datastore.user_postgres import UserPostgresDatastore
-from user.domain.user import UserDomainModel
 from user.model.setting import Settings
 import psycopg2
 
@@ -16,7 +16,7 @@ datastore = UserPostgresDatastore(
 
 hash = generate_hash("password")
 datastore.create(
-    UserDomainModel(
+    ProductDomainModel(
         email="admin@houseofcreator.com",
         mobile_number="+9121434658789",
         hashed_password=hash,

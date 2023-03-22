@@ -8,3 +8,4 @@ class PydanticBaseModel(BaseModel):
         smart_union = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
+        

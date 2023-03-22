@@ -3,8 +3,8 @@ import logging
 from fastapi import BackgroundTasks, HTTPException, Request
 from fastapi_mail import ConnectionConfig
 import jwt
-from common_schema.error import ErrorCode, ErrorResponse
-from common_schema.user import UserAccountStatusType, UserLoginStatusType, UserModel, UserRoleType
+from common_model.error import ErrorCode, ErrorResponse
+from common_model.user import UserAccountStatusType, UserLoginStatusType, UserModel, UserRoleType
 from dataservice.email_service import EmailService
 from dto.user import UserDTO
 from user.dataservice.user import UserDataService

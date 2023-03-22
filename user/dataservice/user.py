@@ -2,10 +2,10 @@
 
 
 from typing import Any, Tuple
-from common_schema.error import ErrorResponse
-from common_schema.user import UserAccountStatusType, UserLoginStatusType, UserModel, UserRoleType
+from common_model.error import ErrorResponse
+from common_model.user import UserAccountStatusType, UserLoginStatusType, UserModel, UserRoleType
 from user.datastore.user_postgres import UserPostgresDatastore
-from user.domain.user import UserDomainModel
+from common_domain.user import UserDomainModel
 
 
 class UserDataService:

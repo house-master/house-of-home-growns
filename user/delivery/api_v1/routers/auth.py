@@ -1,4 +1,4 @@
-from common_schema.user import UserRoleType
+from common_model.user import UserRoleType
 from dto.user import UserDTO
 from user.crud.auth import AuthenticationCrud
 from user.delivery.api_v1.routers import auth

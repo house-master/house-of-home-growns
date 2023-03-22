@@ -1,7 +1,7 @@
 
 
-from common_schema.baseModel import PydanticBaseModel
-from common_schema.user import UserRoleType
+from common_model.baseModel import PydanticBaseModel
+from common_model.user import UserRoleType
 from dto.user import UserDTO
 
 

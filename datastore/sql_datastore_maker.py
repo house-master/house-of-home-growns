@@ -2,7 +2,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import Session
-from common_schema.singleton import Singleton
+from common_model.singleton import Singleton
 
 
 class SqlDataStoreMaker(metaclass=Singleton):

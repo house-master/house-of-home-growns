@@ -1,9 +1,9 @@
 
 
 from typing import Any, Tuple
-from common_schema.error import ErrorCode, ErrorResponse
+from common_model.error import ErrorCode, ErrorResponse
 from datastore.sql_datastore import SqlDataStore
-from user.domain.user import UserDomainModel
+from common_domain.user import UserDomainModel
 from fastapi.encoders import jsonable_encoder
 import logging
 import sqlalchemy

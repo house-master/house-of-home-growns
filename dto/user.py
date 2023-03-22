@@ -2,8 +2,8 @@
 
 
 from typing import Optional
-from common_schema.baseModel import PydanticBaseModel
-from common_schema.user import UserAccountStatusType, UserRoleType
+from common_model.baseModel import PydanticBaseModel
+from common_model.user import UserAccountStatusType, UserRoleType
 
 
 
