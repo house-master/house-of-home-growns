@@ -4,3 +4,4 @@ bcrypt
 jwt
 sqlalchemy
 fastapi-mail
+boto3

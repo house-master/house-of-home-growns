@@ -1,7 +1,7 @@
 from typing import Any, Tuple
 from common_model.error import ErrorResponse
 from common_model.product import ProductModel
-from common_domain.product import ProductDomain
+from common_domain.product import ProductDomainModel
 from datastore.product import ProductDataStore
 
 
@@ -54,7 +54,7 @@ class ProductDataService:
         return output, None
         
     def create(self, product: ProductModel) -> Tuple[ProductModel, ErrorResponse]:
-        productDomain = ProductDomain(**product.dict())
+        productDomain = ProductDomainModel(**product.dict())
 
         createdProduct, err = self.datastore.create(productDomain)
         if err != None:
@@ -65,7 +65,7 @@ class ProductDataService:
         return output, None
 
     def update(self, product: ProductModel, updates: dict[str, Any]) -> Tuple[ProductModel, ErrorResponse]:
-        productDomain = ProductDomain(**product.dict())
+        productDomain = ProductDomainModel(**product.dict())
 
         updatedProduct, err = self.datastore.update(productDomain, updates)
         if err != None:

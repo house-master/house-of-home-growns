@@ -6,17 +6,17 @@ class ShippingOrderDomainModel(SqlDatabaseBase):
     __tablename__ = "product_shipping"
 
     id: Column(Integer, primary_key=True, index=True)
-    order_ids: Column(ARRAY(Integer), nullable=False, index=True)
+    order_item_ids: Column(ARRAY(Integer), nullable=False)
 
-    delivery_partner: Column(String, nullable=False, index=True)
-    is_cod: Column(Boolean, nullable=False, index=True)
+    delivery_partner: Column(String, nullable=False)
+    shipping_type: Column(String, nullable=False)
+    is_cod: Column(Boolean, nullable=False)
 
-    shipping_cost: Column(Numeric, nullable=False, index=True)
+    shipping_cost: Column(Numeric, nullable=False)
 
-    source_address_id: Column(Integer, nullable=False, index=True)
-    destination_address_id: Column(Integer, nullable=False, index=True)
-
-    estimated_delivery_time: Column(String, nullable=False, index=True)
+    source_address_id: Column(Integer, nullable=False)
+    destination_address_id: Column(Integer, nullable=False)
+    
     status: Column(String, nullable=False, index=True)
 
     # metadata

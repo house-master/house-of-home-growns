@@ -53,6 +53,7 @@ class ProductDomainModel(SqlDatabaseBase):
     sub_description: Column(String, nullable=False)
     images: Column(ARRAY(String))
     
+    currency: Column(String, nullable=False)
     price: Column(Numeric, nullable=False)
     discount: Column(Numeric, nullable=False)
 

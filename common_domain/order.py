@@ -10,15 +10,13 @@ class OrderDomainModel(SqlDatabaseBase):
     order_id: Column(Integer, nullable=False, index=True)
     user_id: Column(Integer, nullable=False, index=True)
 
-    product_id: Column(Integer, nullable=False, index=True)
-    quantity: Column(Integer, nullable=False, index=True)
+    billing_address: Column(Integer, nullable=False)  # address_id
+    shipping_address: Column(Integer, nullable=False)  # shipping_id
 
-    billing_address: Column(Integer, nullable=False, index=True)  # address_id
-    shipping_address: Column(Integer, nullable=False, index=True)  # shipping_id
-
-    order_value_id: Column(Integer, nullable=False)
+    order_item_ids: Column(ARRAY(Integer), nullable=False)
 
     payment_method: Column(String, nullable=False)
+    payment_status: Column(String, nullable=False)
     payment_id: Column(Integer)
 
     approval_status: Column(String, nullable=False)
@@ -33,6 +31,9 @@ class OrderValueDomainModel(SqlDatabaseBase):
     __tablename__ = "order_value"
 
     id: Column(Integer, primary_key=True, index=True)
+    product_id: Column(Integer, nullable=False)
+    quantity: Column(Integer, nullable=False)
+
     coupon_id: Column(Integer, index=True)
 
     sub_total: Column(Numeric, nullable=False)

@@ -9,6 +9,10 @@ class ProductVerificationStatus(str, Enum):
     VERIFICATION_COMPLETE = "VERIFICATION_COMPLETE"
 
 
+class ProductQuantityModel(PydanticBaseModel):
+    id: str
+    quantity: int
+
 class ProductReviewCommentModel(PydanticBaseModel):
     id: Optional[str]
     product_id: int

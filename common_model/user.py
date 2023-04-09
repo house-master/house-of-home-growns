@@ -10,6 +10,7 @@ class UserRoleType(str, Enum):
     USER = "USER"
     PREMIUM_VENDOR = "PREMIUM_VENDOR"
     VENDOR = "VENDOR"
+    GUEST = "GUEST"
 
 
 class UserAccountStatusType(str, Enum):

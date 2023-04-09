@@ -1,21 +1,22 @@
 
 
 import logging
-from typing import Any, Tuple
-from common_domain.product import ProductDomainModel
+from typing import Tuple
+from common_domain.order import OrderDomainModel
 from common_model.error import ErrorCode, ErrorResponse
 from datastore.sql_datastore import SqlDataStore
 from fastapi.encoders import jsonable_encoder
 
 
-class ProductDataStore:
+class OrderDataStore:
     def __init__(self, datastore: SqlDataStore) -> None:
         self.datastore = datastore
         return
-
-    def get_all(self, skip: int = 0, limit: int = 10) -> Tuple[list[ProductDomainModel], ErrorResponse]:
+    
+    def get_all(self, skip: int = 0, limit: int = 10) -> Tuple[list[OrderDomainModel], ErrorResponse]:
         try:
-            products = self.datastore.session.query(ProductDomainModel).filter().offset(skip).limit(limit).all()
+            products = self.datastore.session.query(
+                OrderDomainModel).filter().offset(skip).limit(limit).all()
             if len(products) == 0:
                 return None, ErrorResponse(
                     error_code=ErrorCode.NO_RECORDS_FOUND,
@@ -47,10 +48,10 @@ class ProductDataStore:
                 message=f'{e}'
             )
 
-    def get(self, id: int) -> Tuple[ProductDomainModel, ErrorResponse]:
+    def get(self, id: int) -> Tuple[OrderDomainModel, ErrorResponse]:
         try:
-            product = self.datastore.session.query(ProductDomainModel).filter(
-                ProductDomainModel.id == id).first()
+            product = self.datastore.session.query(OrderDomainModel).filter(
+                OrderDomainModel.id == id).first()
             if product == None:
                 return None, ErrorResponse(
                     error_code=ErrorCode.NO_RECORDS_FOUND,
@@ -65,10 +66,10 @@ class ProductDataStore:
                 message=f'{e}'
             )
 
-    def get_all_by_creator(self, id: int, skip: int = 0, limit: int = 10) -> Tuple[list[ProductDomainModel], ErrorResponse]:
+    def get_all_by_creator(self, id: int, skip: int = 0, limit: int = 10) -> Tuple[list[OrderDomainModel], ErrorResponse]:
         try:
-            products = self.datastore.session.query(ProductDomainModel).filter(
-                ProductDomainModel.creator == id).offset(skip).limit(limit).all()
+            products = self.datastore.session.query(OrderDomainModel).filter(
+                OrderDomainModel.creator == id).offset(skip).limit(limit).all()
             if len(products) == 0:
                 return None, ErrorResponse(
                     error_code=ErrorCode.NO_RECORDS_FOUND,
@@ -83,10 +84,10 @@ class ProductDataStore:
                 message=f'{e}'
             )
 
-    def get_all_by_category(self, category: str, skip: int = 0, limit: int = 10) -> Tuple[list[ProductDomainModel], ErrorResponse]:
+    def get_all_by_category(self, category: str, skip: int = 0, limit: int = 10) -> Tuple[list[OrderDomainModel], ErrorResponse]:
         try:
-            products = self.datastore.session.query(ProductDomainModel).filter(
-                ProductDomainModel.category == category).offset(skip).limit(limit).all()
+            products = self.datastore.session.query(OrderDomainModel).filter(
+                OrderDomainModel.category == category).offset(skip).limit(limit).all()
             if len(products) == 0:
                 return None, ErrorResponse(
                     error_code=ErrorCode.NO_RECORDS_FOUND,
@@ -101,7 +102,7 @@ class ProductDataStore:
                 message=f'{e}'
             )
 
-    def create(self, product: ProductDomainModel) -> Tuple[ProductDomainModel, ErrorResponse]:
+    def create(self, product: OrderDomainModel) -> Tuple[OrderDomainModel, ErrorResponse]:
         try:
             self.datastore.session.add(product)
             self.datastore.session.commit()
@@ -114,7 +115,7 @@ class ProductDataStore:
                 message=f'{e}'
             )
 
-    def update(self, product: ProductDomainModel, updates: dict[str, Any]) -> Tuple[ProductDomainModel, ErrorResponse]:
+    def update(self, product: OrderDomainModel, updates: dict[str, Any]) -> Tuple[OrderDomainModel, ErrorResponse]:
         try:
             product_data = jsonable_encoder(product)
             for field in product_data:
@@ -133,8 +134,8 @@ class ProductDataStore:
 
     def delete(self, id: int) -> ErrorResponse:
         try:
-            product = self.datastore.session.query(ProductDomainModel).filter(
-                ProductDomainModel.id == id).first()
+            product = self.datastore.session.query(OrderDomainModel).filter(
+                OrderDomainModel.id == id).first()
 
             if product == None:
                 return ErrorResponse(
