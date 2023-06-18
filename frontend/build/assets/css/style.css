@@ -255,6 +255,7 @@ a img:focus {
 }
 
 a.btn {
+  background-color: #f54337;
   padding: 0;
   padding-right: 30px;
   padding-left: 30px;
@@ -309,7 +310,7 @@ a.btn.noborder {
   border: none;
   font-size: 15px;
 }
-
+ 
 a.link {
   text-transform: uppercase;
 }
@@ -1372,40 +1373,69 @@ div.controls {
   }
 }
 
+#main-wrap #image-slider {
+    background-image: url("../../img/about.jpg");
+    filter: blur(5px);
+
+    height: 100VH; 
+    
+    z-index: 2;
+    margin-top: -80px; 
+    /* margin-bottom: -105px;  */
+  /* background-color: rgba(255, 255, 255, 0.4);  */
+}
+
 #main-wrap #text-slider {
-  height: 100vh;
-  position: relative;
-  z-index: 2;
-  margin-top: -80px;
-  padding-top: 80px;
-  background-color: rgba(255, 255, 255, 0.4);
-}
-
-@media screen and (max-width: 1024px) {
-  #main-wrap #text-slider {
-    margin-top: -100vh;
-    padding-top: 30vh;
+    background-color: rgba(255, 255, 255, 0.4); /* Fallback color */
+    background-color: rgba(179, 179, 179, 0.6); /* Black w/opacity/see-through */
+    color: white;
+    font-weight: bold;
+    border: 3px solid #f1f1f1;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 80%;
+    padding: 20px;
+    text-align: center;
   }
+
+#main-wrap #usp-text {
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    top: 71%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 80%;
+    padding: 20px;
+    text-align: center;
 }
 
-#main-wrap #text-slider .container {
-  position: relative;
-  z-index: 3;
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%);
+#main-wrap #button {
+    /* color: white; */
+    font-weight: bold;
+    position: absolute;
+    top: 95%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 80%;
+    padding: 20px;
+    text-align: center;
 }
 
-#main-wrap #text-slider .container h2 {
-  padding-left: 10px;
-}
-
-@media screen and (max-width: 1300px) {
-  #main-wrap #text-slider .container h2 {
-    padding-left: 8px;
-  }
+.responsive-iframe {
+    position: relative;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 80vh;
+    border: 3px solid #222;
 }
 
 #main-wrap #text-header {
@@ -1453,6 +1483,12 @@ div.controls {
   z-index: 2;
 }
 
+#main-wrap .hrtag {
+    height: 3px; 
+    background-color: black; 
+    margin: 0%;
+}
+
 #main-wrap #bottom-wrap {
   z-index: 2;
   position: relative;
@@ -1487,22 +1523,24 @@ div.controls {
 }
 
 #main-wrap #bottom-wrap #services .col-md-4 .service .title h3 {
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 30px;
+  line-height: 25px;
   text-transform: uppercase;
   padding-right: 50px;
   margin-bottom: 35px;
+  font-weight: 550;
 }
 
 #main-wrap #bottom-wrap #services .col-md-4 .service .title h3 i {
   position: absolute;
   right: 0;
   top: -5px;
-  font-size: 30px;
+  font-size: 40px;
 }
 
-#main-wrap #bottom-wrap #services .col-md-4 .service .title p {
-  text-align: justify;
+#main-wrap #bottom-wrap #services .col-md-4 .service .description li {
+    font-size: 20px;
+    color: #222;
 }
 
 #main-wrap #bottom-wrap #services .col-md-4:nth-of-type(3n+1) .service {
@@ -1537,6 +1575,8 @@ div.controls {
     height: 500px;
   }
 }
+
+
 
 @media screen and (max-width: 480px) and (min-width: 410px) {
   #main-wrap #bottom-wrap #news .row .carousel-news {
@@ -2195,18 +2235,20 @@ div.controls {
 }
 
 #main-wrap #bottom-wrap #testimonials {
-  min-height: 400px;
+  /* min-height: 100px ; */
+
+  height: fit-content;
   position: relative;
   width: 100%;
   margin: 0;
-  padding: 0;
+  /* padding: 0; */
   overflow: hidden;
   z-index: 1;
-  padding: 100px 0;
+  padding: 70px 0;
 }
 
 #main-wrap #bottom-wrap #testimonials .container {
-  position: relative;
+  /* position: relative; */
   z-index: 2;
 }
 
@@ -2216,10 +2258,10 @@ div.controls {
 
 #main-wrap #bottom-wrap #testimonials .container .testimonials-carousel h2 {
   font-family: "Roboto", sans-serif;
-  font-size: 15px;
+  font-size: 24px;
   line-height: 30px;
   text-transform: uppercase;
-  font-weight: 100;
+  font-weight: 300;
   margin-bottom: 25px;
 }
 
@@ -2293,7 +2335,7 @@ div.controls {
 }
 
 #main-wrap #bottom-wrap #team .team-carousel .team-member .content {
-  height: 150px;
+  height: 100px;
   width: 85%;
   width: calc(100% - 50px);
   background-color: white;
